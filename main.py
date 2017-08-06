@@ -17,11 +17,11 @@ class Viuw:                                            #класс отрисо�
         self.master3.config(height="50", width="300")  #конфигурируем главное окно
         self.master3.title("Питониум")
         self.master3.resizable(False, False)
-        self.frame1 = tkinter.Frame(self.master3)              #делим окно на две невидимые рамки
+        self.frame1 = tkinter.Frame(self.master3)       #делим окно на две невидимые рамки
         self.frame2 = tkinter.Frame(self.master3)
         self.frame1.grid(row=0)
         self.frame2.grid(row=1)
-        self.btnOpen = tkinter.Button(self.frame1, text="Open")   #рисуем кнопки
+        self.btnOpen = tkinter.Button(self.frame1, text="Open")             #рисуем кнопки
         self.btnPlay = tkinter.Button(self.frame1, text="Play/Pause")
         self.btnStop = tkinter.Button(self.frame1, text="Stop")
         self.btnOpen.grid(row=0, column=0, padx=45, pady=3)
@@ -31,14 +31,14 @@ class Viuw:                                            #класс отрисо�
         self.playList = tkinter.Listbox(self.frame2, width=70, height=15, selectmode='SINGLE')
         #self.playList.yview_scroll(number=5, what)
         self.playList.grid(row=0, column=0)
-        self.label = tkinter.Label(self.frame2)                #метка для тестирования методов списка(listbox)
+        self.label = tkinter.Label(self.frame2)         #метка для тестирования методов списка(listbox)
         self.label.grid(row=1, column=0)
 
 
 
 class Controller:                                       #класс управления
     def __init__(self):
-        self.root = tkinter.Tk()                                #будущий "master" (создаём объект окна)
+        self.root = tkinter.Tk()                        #будущий "master" (создаём объект окна)
         self.viuw = Viuw(self.root)                     #подключаем Viuw передаём ей объект главного окна
         self.player = media.Player()                    #укорачиваем вызов функции
         #self.listBoxSelect()
