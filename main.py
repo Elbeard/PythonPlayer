@@ -6,27 +6,28 @@ from pyglet import media
 #через переменную "createdMainWindow" можно отследить взаимодействие классов
 #программа пока играет только Wav файлы для mp3 надо устанавливать системную библиотеку AVbin
 
-class View:                                                       #класс отрисовки
+class View:                                                  #класс отрисовки
     def __init__(self, createdMainWindow):
-        self.drawWindow(createdMainWindow)                        #запускаем рисование
+        self.drawWindow(createdMainWindow)                  #запускаем рисование
 
-    def drawWindow(self, createdMainWindow):                      #рисуем окно, и его элементы
-        createdMainWindow.config(height="50", width="300")        #конфигурируем главное окно
-        createdMainWindow.title("Питониум")
-        createdMainWindow.resizable(False, False)
-        frame1 = tkinter.Frame(createdMainWindow)      #делим окно на две невидимые рамки
-        frame2 = tkinter.Frame(createdMainWindow)
-        frame1.grid(row=0)
-        frame2.grid(row=1)
-        self.btnOpen = tkinter.Button(frame1, text="Open")             #рисуем кнопки
-        self.btnPlay = tkinter.Button(frame1, text="Play/Pause")
-        self.btnStop = tkinter.Button(frame1, text="Stop")
+    def drawWindow(self, createdMainWindow):                #рисуем окно, и его элементы
+        self.createdMainWindow = createdMainWindow
+        self.createdMainWindow.config(height="50", width="300")        #конфигурируем главное окно
+        self.createdMainWindow.title("Питониум")
+        self.createdMainWindow.resizable(False, False)
+        self.frame1 = tkinter.Frame(createdMainWindow)      #делим окно на две невидимые рамки
+        self.frame2 = tkinter.Frame(createdMainWindow)
+        self.frame1.grid(row=0)
+        self.frame2.grid(row=1)
+        self.btnOpen = tkinter.Button(self.frame1, text="Open")             #рисуем кнопки
+        self.btnPlay = tkinter.Button(self.frame1, text="Play/Pause")
+        self.btnStop = tkinter.Button(self.frame1, text="Stop")
         self.btnOpen.grid(row=0, column=0, padx=45, pady=3)
         self.btnPlay.grid(row=0, column=1, padx=45, pady=3)
         self.btnStop.grid(row=0, column=2, padx=45, pady=3)
-        self.playList = tkinter.Listbox(frame2, width=70, height=15, selectmode='SINGLE')
+        self.playList = tkinter.Listbox(self.frame2, width=70, height=15, selectmode='SINGLE')
         self.playList.grid(row=0, column=0)
-        self.label = tkinter.Label(frame2)         #метка для тестирования методов списка(listbox)
+        self.label = tkinter.Label(self.frame2)         #метка для тестирования методов списка(listbox)
         self.label.grid(row=1, column=0)
 
 
