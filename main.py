@@ -85,7 +85,7 @@ class Controller:                                       #класс управл
 
 
 controller = Controller()                               #создание экземпляра класса Controller
-controller.root.mainloop()                              #запуск основного цикла программы
+controller.createMainWindow.mainloop()                  #запуск основного цикла программы
 
 
 #!!!почитать про метод  insert!!!
