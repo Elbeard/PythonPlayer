@@ -1,5 +1,4 @@
 import tkinter
-#from tkinter import *
 import tkinter.filedialog
 from pyglet import media
 #если на компьтере отсутствуют прописанные выше библиотеки программа не заработает
@@ -7,18 +6,18 @@ from pyglet import media
 #через переменную "master" можно отследить взаимодействие классов
 #программа пока играет только Wav файлы для mp3 надо устанавливать системную библиотеку AVbin
 
-class Viuw:                                            #класс отрисовки
-    def __init__(self, master):
-        self.master1 = master                          #превращакм внешний мастер во внутренний
-        self.drawWindow(self.master1)                  #запускаем рисование
+class View:                                            #класс отрисовки
+    def __init__(self, createdMainWindow):
+        self.createdMainWindow1 = createdMainWindow                          #превращакм внешний мастер во внутренний
+        self.drawWindow(self.createdMainWindow1)                  #запускаем рисование
 
-    def drawWindow(self, master2):                     #рисуем окно, и его элементы
-        self.master3 = master2
-        self.master3.config(height="50", width="300")  #конфигурируем главное окно
-        self.master3.title("Питониум")
-        self.master3.resizable(False, False)
-        self.frame1 = tkinter.Frame(self.master3)       #делим окно на две невидимые рамки
-        self.frame2 = tkinter.Frame(self.master3)
+    def drawWindow(self, createdMainWindow2):                     #рисуем окно, и его элементы
+        self.createdMainWindow3 = createdMainWindow2
+        self.createdMainWindow3.config(height="50", width="300")  #конфигурируем главное окно
+        self.createdMainWindow3.title("Питониум")
+        self.createdMainWindow3.resizable(False, False)
+        self.frame1 = tkinter.Frame(self.createdMainWindow3)      #делим окно на две невидимые рамки
+        self.frame2 = tkinter.Frame(self.createdMainWindow3)
         self.frame1.grid(row=0)
         self.frame2.grid(row=1)
         self.btnOpen = tkinter.Button(self.frame1, text="Open")             #рисуем кнопки
@@ -38,53 +37,51 @@ class Viuw:                                            #класс отрисо�
 
 class Controller:                                       #класс управления
     def __init__(self):
-        self.root = tkinter.Tk()                        #будущий "master" (создаём объект окна)
-        self.viuw = Viuw(self.root)                     #подключаем Viuw передаём ей объект главного окна
+        self.createMainWindow = tkinter.Tk()                        #будущий "master" (создаём объект окна)
+        self.view = View(self.createMainWindow)                     #подключаем Viuw передаём ей объект главного окна
         self.player = media.Player()                    #укорачиваем вызов функции
-        #self.listBoxSelect()
-        #self.files = list()                            #!!!разобраться с созданием кортежей!!!
-        self.btnPlay = False                            #состояние кнопки Pley/Pause
+        self.btnPlay = False                            #состояние кнопки Play/Pause
         #-----------------------обрабатываем событие нажатия на кнопки--------------------#
-        self.viuw.btnOpen.bind("<ButtonRelease-1>", self.openFile)
-        self.viuw.btnPlay.bind("<Button-1>", self.play)
-        self.viuw.btnStop.bind("<Button-1>", self.stop)
-        self.viuw.playList.bind("<Double-Button-1>", self.listBoxSelect)
+        self.view.btnOpen.bind("<ButtonRelease-1>", self.openFile)
+        self.view.btnPlay.bind("<Button-1>", self.play)
+        self.view.btnStop.bind("<Button-1>", self.stop)
+        self.view.playList.bind("<Double-Button-1>", self.listBoxSelect)
 
     def openFile(self, event):                          #получаем адрес файла у системы
         self.files = tkinter.filedialog.askopenfilenames()       #средствами Tkinter.filedialog
         for self.file in self.files:
-            self.viuw.playList.insert(0, self.file)
+            self.view.playList.insert(0, self.file)
 
     def load(self, file):                               #загрузка файла в плеер
-        self.file = file                                #!!!после выполнения этого этапа !!!
-        self.loadFile = media.load(self.file)           #!!!музыка запускается сама, надо разобраться!!!
+        self.file = file
+        self.loadFile = media.load(self.file)           # !!!музыка запускается сама, надо разобраться!!!
         self.player.queue(self.loadFile)
-        self.player.pause()                             #!!!тут костыль!!!
+        self.player.pause()                             # !!!тут костыль!!!
 
     def play(self, event):                              #собственно Play/Pause в деле
         self.btnPlay = not self.btnPlay                 #при повторном вызове если нажата отжать
         if self.btnPlay == True:
             self.player.play()
-            self.viuw.btnPlay.config(text="Pause")
+            self.view.btnPlay.config(text="Pause")
         else:
             self.player.pause()
-            self.viuw.btnPlay.config(text="Play")
+            self.view.btnPlay.config(text="Play")
 
     def stop(self, event):
         self.player.delete()                            #Выгружает оз памяти песню и перестаёт её играть
         self.load(self.LBsel)                           #подгружаем обратно чтобы было что играть
                                                         #если нажмут Play
         self.btnPlay = False                            #возвращаем кнопку плей в отжатое состояние
-        self.viuw.btnPlay.config(text="Play")           #меняем надпись на кнопке
+        self.view.btnPlay.config(text="Play")           #меняем надпись на кнопке
 
     def listBoxSelect(self, event):                     #выбор песни из плейлиста
-        self.LBsel = self.viuw.playList.get(self.viuw.playList.curselection())
-        self.viuw.label.config(text=self.LBsel)
+        self.LBsel = self.view.playList.get(self.view.playList.curselection())
+        self.view.label.config(text=self.LBsel)
         self.player.delete()
         self.load(self.LBsel)
         self.player.play()
         self.btnPlay = True
-        self.viuw.btnPlay.config(text="Pause")
+        self.view.btnPlay.config(text="Pause")
 
 
 controller = Controller()                               #создание экземпляра класса Controller
