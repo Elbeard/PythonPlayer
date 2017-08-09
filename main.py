@@ -6,9 +6,10 @@ from pyglet import media
 #через переменную "createdMainWindow" можно отследить взаимодействие классов
 #программа пока играет только Wav файлы для mp3 надо устанавливать системную библиотеку AVbin
 
-class View:                                                  #класс отрисовки
-    def __init__(self, createdMainWindow):
-        self.drawWindow(createdMainWindow)                  #запускаем рисование
+class View:                                                 #класс отрисовки
+    def __init__(self):
+        self.createdMainWindow = tkinter.Tk()               #создаём объект окна
+        self.drawWindow(self.createdMainWindow)             #запускаем рисование
 
     def drawWindow(self, createdMainWindow):                #рисуем окно, и его элементы
         self.createdMainWindow = createdMainWindow
@@ -34,8 +35,7 @@ class View:                                                  #класс отр�
 
 class Controller:                                       #класс управления
     def __init__(self):
-        self.createMainWindow = tkinter.Tk()            #будущий "createdMainWindow" (создаём объект окна)
-        self.view = View(self.createMainWindow)         #подключаем Viuw передаём ей объект главного окна
+        self.view = View()                              #подключаем Viuw 
         self.player = media.Player()                    #укорачиваем вызов функции
         self.btnPlay = False                            #состояние кнопки Play/Pause
         #-----------------------обрабатываем событие нажатия на кнопки--------------------#
@@ -82,7 +82,7 @@ class Controller:                                       #класс управл
 
 
 controller = Controller()                               #создание экземпляра класса Controller
-controller.createMainWindow.mainloop()                  #запуск основного цикла программы
+controller.view.createdMainWindow.mainloop()                  #запуск основного цикла программы
 
 
 #!!!почитать про метод  insert!!!
